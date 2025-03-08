@@ -40,8 +40,8 @@
     Машина запросит несколько раз логин (master на всех VM) и пароль (changeme).
   - Далее на каждой машине зайти в репозиторий configs и выполнить скрипт set-configs.sh. \
     Этот скрипт настроит пакеты и настроит репликацию БД.
-  - Для демонстрации работающей репликации запустить set-databases.sh на master. \
-    После этого можно увидеть, что БД появились на slave1, slave2.
+  - [Для демонстрации работающей репликации запустить set-databases.sh на master. \
+    После этого можно увидеть, что БД появились на slave1, slave2.]
   - Для бэкапа БД с машины slave1 выполнить на рабочем компьютере get-databases.sh.
   - Для визуализации мониторинга и логирования выполнить в браузере http://192.168.0.205:3000. \
     На открывшемся сайте grafana ввести login и пароль admin, затем skip. \
@@ -49,35 +49,15 @@
     ввести URL: http://localhost:9090, нажать Save&test. \
     На левой панели: + -> Import -> load a json file -> log-configs/monitoring.json. \
     Установить Victoria metrics: Prometheus, нажать Import.
-  - Для логирования: Create a data source -> loki, \
+  - Для логирования: на левой панели: "колесико" -> Data sources, Add data sources -> loki, \
     ввести URL: http://192.168.0.200:3100, нажать Save&test. \
     На левой панели: + -> Import -> load a json file -> log-configs/logging.json. \
-    Установить Victoria metrics: loki, нажать Import.
+    Установить Victoria metrics: loki, нажать Import. \
+    Чтобы появились логи, нужно выставить в правом верхнем углу время last 5 minutes \
+    и зайти в браузере на http://192.168.0.200, или выполнить на master команду curl http://2.2.2.2
  
-## 2. Обновляем ядро OC на более новую поддерживаемую весию (Almalinux 8.0)
+## 3. Аварийное восстановление
 
-Скачиваем ключи для доступа к удалённому репозиторию:
-
-```
-sudo rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
-sudo rpm --import https://www.elrepo.org/RPM-GPG-KEY-v2-elrepo.org
-```
-
-Скачиваем и устанавливаем elrepo-release:
-
-```
-sudo wget https://elrepo.org/linux/kernel/el8/x86_64/RPMS/elrepo-release-8.4-2.el8.elrepo.noarch.rpm
-sudo dnf install ./elrepo-release-8.4-2.el8.elrepo.noarch.rpm
-```
-
-Устанавливаем новое ядро:
-
-`sudo dnf --enablerepo=elrepo-kernel install kernel-lt`
-
-Смотрим текущую версию ядра и проверяем, что новое ядро появилось в папке /boot:
-
-```
-uname -r
-ls -al /boot
-```
-
+  Отличается от установки только пунктом, который написан в квадратных скобках:
+  - [Для восстановления БД запустить restore-databases.sh на master. \
+    После этого БД восстановится из сделанного заранее бэкапа.]
