@@ -7,7 +7,6 @@ sudo cp ${OURDIR}/default  /etc/nginx/sites-enabled/default
 sudo systemctl reload nginx
 # копируем конфиги для filebeats
 sudo cp ${OURDIR}/nginx.yml /etc/filebeat/modules.d/nginx.yml
-sudo cp ${OURDIR}/filebeat.yml /etc/filebeat/filebeat.yml 
 
 # настраиваем mysql
 sudo hostnamectl set-hostname master
