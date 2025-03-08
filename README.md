@@ -45,7 +45,9 @@
   - Для бэкапа БД с машины slave1 выполнить на рабочем компьютере get-databases.sh.
   - Для визуализации мониторинга и логирования выполнить в браузере http://192.168.0.205:3000. \
     На открывшемся сайте grafana ввести login и пароль admin, затем skip. \
-    
+    Для мониторинга: Create a data source -> prometheus, \
+    ввести URL: http://localhost:9090, нажать Save&test. \
+    На левой панели: + -> Import -> load a json file -> log-configs/
  
 ## 2. Обновляем ядро OC на более новую поддерживаемую весию (Almalinux 8.0)
 
