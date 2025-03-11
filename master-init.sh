@@ -12,6 +12,10 @@ sed "s/dynaddress/$1/g" \
 sed "s/stataddress/${IP}/g" \
   ./${USER}-configs/..00-installer-config.yaml > \
   ./${USER}-configs/00-installer-config.yaml
+# изменяем конфиг для promtail
+sed "s/stataddress/${IP}/g" \
+  ./${USER}-configs/.config.yml > \
+  ./${USER}-configs/config.yml
 
 # настраиваем вход по ssh без пароля
 ssh-copy-id master@192.168.0.$1

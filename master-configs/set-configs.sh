@@ -5,8 +5,11 @@ OURDIR='/home/master/configs'
 # настраиваем nginx
 sudo cp ${OURDIR}/default  /etc/nginx/sites-enabled/default
 sudo systemctl reload nginx
-# копируем конфиги для filebeats
-sudo cp ${OURDIR}/nginx.yml /etc/filebeat/modules.d/nginx.yml
+# копируем конфиг для promtail
+sudo cp ${OURDIR}/config.yml /etc/promtail/config.yml
+# даем право promtail на чтение логов 
+sudo usermod -aG adm promtail
+
 
 # настраиваем mysql
 sudo hostnamectl set-hostname master
@@ -23,12 +26,7 @@ sudo systemctl daemon-reload
 sudo systemctl start prometheus-node-exporter
 sudo systemctl enable prometheus-node-exporter
 
-# добавляем в конфиг promtail чтение логов из nginx
-sudo cp ${OURDIR}/config.yml /etc/promtail/config.yml
-# даем право promtail на чтение логов nginx
-sudo usermod -aG adm promtail
 # включаем promtail и loki
-sudo systemctl daemon-reload
 sudo systemctl enable --now promtail
 sudo systemctl enable --now loki
 sudo systemctl restart promtail

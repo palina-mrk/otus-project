@@ -5,7 +5,7 @@ network:
     enp0s3:
       dhcp4: no
       addresses:
-        - 192.168.0.39/24
+        - 192.168.0.55/24
         - 192.168.0.201/24
       nameservers:
         addresses:
