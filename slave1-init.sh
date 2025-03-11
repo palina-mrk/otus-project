@@ -22,6 +22,8 @@ ssh-copy-id master@192.168.0.$1
 # создаем на ВМ директорию и копируем туда все необходимые файлы
 ssh master@192.168.0.$1 "mkdir /home/master/configs"
 scp ./${USER}-configs/* master@192.168.0.$1:/home/master/configs
+scp ./deb-files/loki*.deb master@192.168.0.$1:/home/master/configs
+scp ./deb-files/promtail*.deb master@192.168.0.$1:/home/master/configs
 
 # даем право на использование sudo без пароля
 ssh master@192.168.0.$1 \

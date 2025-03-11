@@ -17,6 +17,8 @@ sed "s/stataddress/${IP}/g" \
   ./${USER}-configs/config.yml
 # настраиваем вход по ssh без пароля
 ssh-copy-id master@192.168.0.$1
+scp ./deb-files/loki*.deb master@192.168.0.$1:/home/master/configs
+scp ./deb-files/promtail*.deb master@192.168.0.$1:/home/master/configs
 
 # создаем на ВМ директорию и копируем туда все необходимые файлы
 ssh master@192.168.0.$1 "mkdir /home/master/configs"

@@ -30,6 +30,9 @@ ssh-copy-id master@192.168.0.$1
 # создаем на ВМ директорию и копируем туда все необходимые файлы
 ssh master@192.168.0.$1 "mkdir /home/master/configs"
 scp ./${USER}-configs/* master@192.168.0.$1:/home/master/configs
+scp ./deb-files/loki*.deb master@192.168.0.$1:/home/master/configs
+scp ./deb-files/promtail*.deb master@192.168.0.$1:/home/master/configs
+scp ./deb-files/grafana*.deb master@192.168.0.$1:/home/master/configs
 
 # даем право на использование sudo без пароля
 ssh master@192.168.0.$1 \
@@ -51,7 +54,7 @@ ssh master@${IP} "sudo apt -y install prometheus-node-exporter"
 ssh master@${IP} "sudo apt -y install prometheus"
 ssh master@${IP} "sudo apt install -y adduser libfontconfig1"
 ssh master@${IP} "sudo apt -y install musl"
-ssh master@${IP} "sudo dpkg -i ${OURDIR}/grafana_6.6.0_amd64.deb"
+ssh master@${IP} "sudo dpkg -i ${OURDIR}/grafana*.deb"
 # устанавливаем loki и promtail для сбора логов
 ssh master@${IP} "sudo dpkg -i /home/master/configs/loki*.deb"
 ssh master@${IP} "sudo dpkg -i /home/master/configs/promtail*.deb"
