@@ -52,7 +52,7 @@
     Установить Victoria metrics: Prometheus, нажать Import.
   - Для логирования: на левой панели: "колесико" -> Data sources, Add data sources -> loki, \
     ввести URL: http://192.168.0.200:3100, нажать Save&test. \
-    На левой панели: + -> Import -> load a json file -> log-configs/logging.json. \
+    На левой панели: + -> Import -> load a json file -> log-configs/lokiforlogs.json. \
     Установить Victoria metrics: loki, нажать Import. \
     Чтобы появились логи, нужно выставить в правом верхнем углу время last 5 minutes \
     и зайти в браузере на http://192.168.0.200, или выполнить на master команду curl http://2.2.2.2
@@ -60,11 +60,16 @@
 ## 3. Аварийное восстановление
 
   Отличается от установки только пунктом, который написан в квадратных скобках:
-  - [Для восстановления БД запустить restore-databases.sh на master. \
+  - [Для восстановления БД запустить ./master-configs/mysql-backup.tar.gz на master. \
     После этого БД восстановится из сделанного заранее бэкапа.]
 
-## 4. Примечание
+## 4. Примечания
 
-  При установке Grafana, Loki и Promtaile я пользуюсь .deb пакетами, \
-  которые не получилось залить на Github, но они находятся на домашнем компьютере \
-  в папках log-configs и master-configs.
+  - Если аварийное восстановление происходит не с нуля, а с предустановленными пакетами, \
+    то есть скрипты <...>-init.sh уже выполнены, тогда перед восстановлением БД \
+    файл бэкапа нужно залить на master@192.168.0.200: \
+```scp ./master-configs/mysql-backup.tar.gz master@192.168.0.200:/home/master/configs/``` \
+    уже после этого ввполнить скрипт ./master-configs/mysql-backup.tar.gz.
+  - При установке Grafana, Loki и Promtaile я пользуюсь .deb пакетами, \
+    которые не получилось залить на Github, но они находятся на домашнем компьютере \
+    в папках log-configs и master-configs.
