@@ -21,7 +21,8 @@ scrape_configs:
     labels:
       job: varlogs
      #NOTE: Need to be modified to scrape any additional logs of the system.
-      __path__: /var/log/messages
+      __path__: /var/log/syslog
+      host: "192.168.0.200"
 - job_name: nginx
   static_configs:
   - targets:
@@ -29,3 +30,28 @@ scrape_configs:
     labels:
       job: nginxlogs
       __path__: /var/log/nginx/*log
+      host: "192.168.0.200"
+- job_name: messages
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: messagelogs
+      __path__: /var/log/dmesg
+      host: "192.168.0.200"
+- job_name: mysql
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: mysqllogs
+      __path__: /var/log/mysql/*log
+      host: "192.168.0.200"
+- job_name: kernel
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: kernlogs
+      __path__: /var/log/kern.log
+      host: "192.168.0.200"

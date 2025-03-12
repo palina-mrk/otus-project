@@ -19,7 +19,6 @@ sed "s/stataddress/${IP}/g" \
 
 # настраиваем вход по ssh без пароля
 ssh-copy-id master@192.168.0.$1
-
 # создаем на ВМ директорию и копируем туда все необходимые файлы
 ssh master@192.168.0.$1 "mkdir /home/master/configs"
 scp ./${USER}-configs/* master@192.168.0.$1:/home/master/configs
@@ -36,7 +35,7 @@ ssh master@192.168.0.$1 "sudo hostnamectl set-hostname ${USER}"
 ssh master@192.168.0.$1 "sudo cp /home/master/configs/00-installer-config.yaml \
 		         /etc/netplan/00-installer-config.yaml"
 ssh master@192.168.0.$1 "sudo netplan apply"
-
+sleep 300
 # устанавливаем mysql и nginx
 ssh master@${IP} "sudo cp /home/master/configs/resolv.conf \
 			  /etc/resolv.conf"

@@ -11,10 +11,6 @@ sed "s/dynaddress/$1/g" \
 sed "s/stataddress/${IP}/g" \
   ./${USER}-configs/..00-installer-config.yaml > \
   ./${USER}-configs/00-installer-config.yaml
-# изменяем конфиг для promtail
-sed "s/stataddress/${IP}/g" \
-  ./${USER}-configs/.config.yml > \
-  ./${USER}-configs/config.yml
 
 # настраиваем вход по ssh без пароля
 ssh-copy-id master@192.168.0.$1
@@ -22,8 +18,6 @@ ssh-copy-id master@192.168.0.$1
 # создаем на ВМ директорию и копируем туда все необходимые файлы
 ssh master@192.168.0.$1 "mkdir /home/master/configs"
 scp ./${USER}-configs/* master@192.168.0.$1:/home/master/configs
-scp ./deb-files/loki*.deb master@192.168.0.$1:/home/master/configs
-scp ./deb-files/promtail*.deb master@192.168.0.$1:/home/master/configs
 
 # даем право на использование sudo без пароля
 ssh master@192.168.0.$1 \
@@ -35,7 +29,7 @@ ssh master@192.168.0.$1 "sudo hostnamectl set-hostname ${USER}"
 ssh master@192.168.0.$1 "sudo cp /home/master/configs/00-installer-config.yaml \
 		         /etc/netplan/00-installer-config.yaml"
 ssh master@192.168.0.$1 "sudo netplan apply"
-
+sleep 300
 # устанавливаем mysql и nginx
 ssh master@${IP} "sudo cp /home/master/configs/resolv.conf \
 			  /etc/resolv.conf"

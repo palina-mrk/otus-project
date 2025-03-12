@@ -16,10 +16,7 @@ sed "s/dynaddress/$1/g" \
 sed "s/stataddress/${IP}/g" \
   ./${USER}-configs/..00-installer-config.yaml > \
   ./${USER}-configs/00-installer-config.yaml
-# изменяем конфиг для promtail
-sed "s/stataddress/${IP}/g" \
-  ./${USER}-configs/.config.yml > \
-  ./${USER}-configs/config.yml
+
 # изменяем конфиг для прометеуса
 sed "s/targethosts/${TARGETHOSTS}/g" \
   ./${USER}-configs/.prometheus.yml > \
@@ -44,7 +41,7 @@ ssh master@192.168.0.$1 "sudo hostnamectl set-hostname ${USER}"
 ssh master@192.168.0.$1 "sudo cp ${OURDIR}/00-installer-config.yaml \
 		         /etc/netplan/00-installer-config.yaml"
 ssh master@192.168.0.$1 "sudo netplan apply"
-
+sleep 300
 # устанавливаем prometheus и node-exporter 
 ssh master@${IP} "sudo cp ${OURDIR}/resolv.conf \
 			  /etc/resolv.conf"
@@ -55,9 +52,6 @@ ssh master@${IP} "sudo apt -y install prometheus"
 ssh master@${IP} "sudo apt install -y adduser libfontconfig1"
 ssh master@${IP} "sudo apt -y install musl"
 ssh master@${IP} "sudo dpkg -i ${OURDIR}/grafana*.deb"
-# устанавливаем loki и promtail для сбора логов
-ssh master@${IP} "sudo dpkg -i /home/master/configs/loki*.deb"
-ssh master@${IP} "sudo dpkg -i /home/master/configs/promtail*.deb"
 
 # переходим на master для настройки пакетов
 ssh master@${IP}
